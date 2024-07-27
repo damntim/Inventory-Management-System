@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PM Dashboard</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+    <!-- Custom CSS -->
+    <link href="styles.css" rel="stylesheet"> <link href="style.css" rel="stylesheet">
+</head>
+<body>
+
+<div class="sidebar">
+    <div class="profile-container">
+        <img src="avatar-5.png" alt="Profile Picture" onclick="toggleDropdown()">
+        <div class="dropdown-menu" id="profileDropdown">
+            <a class="dropdown-item" href="#">Edit Profile</a>
+            <a class="dropdown-item" href="#">Sign Out</a>
+        </div>
+    </div>
+    <div class="menu-title">Menu</div>
+  
+  <a href="pmdashboard.html"><i class="fas fa-user"></i> Dashboard</a>
+        <a href="addproduct.html"><i class="fas fa-box"></i> Products</a>
+    <a href="addprice.html" ><i class="fas fa-dollar-sign"></i> Price </a>
+    <a href="addcategories.html"><i class="fas fa-tags"></i> Category</a>
+</div>
+
+ <div class="content">
+     <div class="dashboard"  style="width:103%;margin-left:-20px;margin-top:-18px;">
+            <div class="card">
+        <header>
+            <h5 style="margin-left:-10%;font-weight:bold;">Product Manager Dashboard</h5>
+        </header>
+    </div>
+</div>
+         
+</body>
+</html>
