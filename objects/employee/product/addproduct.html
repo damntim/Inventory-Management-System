@@ -45,21 +45,26 @@
         </div>
         </header>
 
-        <form action="" method="post" style="padding:6px;">
+        <form action="" method="post" style="padding:6px;margin-top:-10px;">
             <label for="productName">Product Name:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
             <input type="text" id="productName" name="productName" required></label>
-            <label for="productPrice">Product Price:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-            <input type="number" id="productPrice" name="productPrice" required></label>
+
+            <label for="productPrice">Supply Price:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <input type="number" id="supplyPrice" name="supplyPrice" required></label>
+
+            <label for="productPrice">Selling Price:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <input type="number" id="sellingPrice" name="sellingPrice" required readonly></label>
 
             <label for="productCategory">Product Category:&nbsp;&nbsp;&nbsp;&nbsp;
             <input type="text" id="productCategory" name="productCategory" required></label>
 
-            <label for="productAvailability">Product Availability:&nbsp;&nbsp;
-            <input type="text" id="productAvailability" name="productAvailability" required></label>
+            <label for="productPrice">Quantity:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <input type="number" id="Quantity" name="quantity" required></label>
 
             <label for="stock">Stock:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
             <input type="text" id="stock" name="stock" required></label>
+
             <label for="productDescription">Product Description:
             <textarea id="productDescription" name="productDescription" required></textarea></label>
 
