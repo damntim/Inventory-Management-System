@@ -58,10 +58,11 @@ $profileImagePath = !empty($loggedInUser['image']) ? '../../../images/employees/
         </div>
     </div>
     <div class="menu-title">Menu</div>
+    <a href="hrdashboard.php"><i class="fas fa-home"></i> Home</a>
     <a href="javascript:void(0)" class="dropdown-btn" onclick="toggleEmployeeDropdown()"><i class="fas fa-users"></i> Employees</a>
     <div class="dropdown-container" id="employeeDropdown">
         <a href="list_of_all_employees.php">All Employees</a>
-        <a href="employee_reg_form.html">Add Employee</a>
+        <a href="employee_reg_form.php">Add Employee</a>
     </div>
 </div>
 
