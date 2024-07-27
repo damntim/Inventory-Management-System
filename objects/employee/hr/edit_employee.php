@@ -58,7 +58,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         if (in_array($fileExtension, $allowedExts)) {
             // Create a unique name for the file
             $newFileName = md5(time() . $fileName) . '.' . $fileExtension;
-            $uploadFileDir = 'uploads/';
+            $uploadFileDir = '../../../images/employees/';
             $dest_path = $uploadFileDir . $newFileName;
 
             // Move the file to the uploads directory
