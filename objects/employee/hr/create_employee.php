@@ -1,6 +1,7 @@
 <?php
-require 'Employee.php';
-require '../../../db.php'; // File where PDO instance is created
+session_start();
+
+include("../../../objects/employee/hr/get_employee.php");// File where PDO instance is created
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // Retrieve form data

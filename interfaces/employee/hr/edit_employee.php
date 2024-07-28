@@ -1,5 +1,5 @@
 <?php
-session_start();
+
 
 include("../includes/header.php");
 include("../../../objects/employee/hr/get_employee.php");

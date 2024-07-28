@@ -1,6 +1,7 @@
 <?php
-require '../../../db.php'; // Ensure this file contains the PDO instance
-session_start();
+
+
+include("../../../objects/employee/hr/get_employee.php");
 
 // Check if employee_id is provided
 if (!isset($_GET['id']) || empty($_GET['id'])) {

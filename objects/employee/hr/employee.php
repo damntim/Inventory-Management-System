@@ -71,12 +71,13 @@ class Employee {
         $stmt = $this->pdo->prepare($sql);
         $stmt->execute([':employee_id' => $employee_id]);
     }
-
-    // List all employees
-    public function listAll() {
-        $sql = "SELECT * FROM employees";
-        $stmt = $this->pdo->query($sql);
+    public function listAllExceptLoggedIn($logged_in_employee_id) {
+        $sql = "SELECT * FROM employees WHERE employee_id != :employee_id";
+        $stmt = $this->pdo->prepare($sql);
+        $stmt->execute([':employee_id' => $logged_in_employee_id]);
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
+
+   
 }
 ?>
