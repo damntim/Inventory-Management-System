@@ -1,4 +1,9 @@
-<?php include ("../includes/header.php") ?>
+<?php
+
+include ("../includes/header.php");
+include ("../../../objects/employee/hr/getlogged.php");
+
+?>
 <div class="container-fluid">
   <div class="row">
     <?php include("includes/navbar.php")?>
@@ -8,15 +13,10 @@
         <h1 class="h2">Dashboard</h1>
         
         <div class="d-flex align-items-center">
+          
           <div class="profile-container">
+            <img src="../../../images/employees/<?php echo htmlspecialchars($_SESSION['image']); ?>" alt="Profile Picture" class="profile-img rounded-5" herf="#" style="width: 40px; height: 40px; border-radius: 50%;">
             
-            <img src="../../../images/employees/2.jpg" alt="Profile Picture" class="profile-img rounded-5" onclick="toggleDropdown()" style="width: 40px; height: 40px; border-radius: 50%;">
-            <!-- shyiramo ifoto ivuye muri session yumukozi winjiye -->
-            <div class="user-menu-content">
-            <a href="eidtprofile.php">Edit Profile</a>
-            <a href="change_password.php">Change Password</a>
-            <a href="logout.php">Logout</a>
-        </div>
           </div>
           <div class="btn-toolbar mb-2 mb-md-0 ms-3">
             <!-- Additional buttons or content can go here -->
@@ -24,9 +24,10 @@
         </div>
       </div>
 
-      <h2>Section title</h2>
       <div class="table-responsive small">
-        <p class="">Your Contents here please!!!</p>
+        <div class="content">
+         
+      </div>
       </div>
     </main>
   </div>
