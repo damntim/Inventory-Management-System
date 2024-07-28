@@ -1,17 +1,7 @@
 <?php
-session_start();
 
 include ("../includes/header.php");
-include ("../../../objects/employee/hr/employee.php");
-
-// Database connection
-include '../../../config/Database.php';
-$database = new Database();
-$db = $database->getConnection();
-
-$employee = new Employee($db);
-$logged_in_employee_id = $_SESSION['employee_id']; // Get the logged-in employee's ID from session
-$employees = $employee->listAllExceptLoggedIn($logged_in_employee_id); // Retrieve all employees except the logged-in one
+include ("../../../objects/employee/hr/getlogged.php");
 ?>
 <div class="container-fluid">
   <div class="row">
