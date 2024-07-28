@@ -2,11 +2,23 @@
 session_start();
 include "header.php";
 ?>
-  <?php
-    if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['login'])) {
-        include_once '../../config/database.php';
-        include_once '../../objects/authentication/Authentication.php';
+ <?php
+if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['login'])) {
+    // Include necessary files
+    include_once '../../config/database.php';
+    include_once '../../objects/authentication/Authentication.php';
 
+    // Initialize variables
+    $error_message = "";
+
+    // Check for empty fields
+    if (empty($_POST['email']) || empty($_POST['password'])) {
+        $error_message = "<div class='alert alert-danger mt-3'>All fields are required.</div>";
+    } elseif (strlen($_POST['password']) < 8) {
+        // Check if password is at least 8 characters long
+        $error_message = "<div class='alert alert-danger mt-3'>Password must be at least 8 characters long.</div>";
+    } else {
+        // Proceed with the authentication
         $database = new Database();
         $db = $database->getConnection();
 
@@ -27,10 +39,14 @@ include "header.php";
             }
             exit;
         } else {
-            $error_message= "<div class='alert alert-danger mt-3'>Login failed. Invalid email or password.</div>";
+            $error_message = "<div class='alert alert-danger mt-3'>Login failed. Invalid email or password.</div>";
         }
     }
-    ?>
+
+    
+}
+?>
+
 <div class="container">
     <div class="row mt-5">
         <div class="col-md-6 offset-md-3">
