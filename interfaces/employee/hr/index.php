@@ -2,6 +2,7 @@
 
 include ("../includes/header.php");
 include ("../../../objects/employee/hr/getlogged.php");
+
 ?>
 <div class="container-fluid">
   <div class="row">
