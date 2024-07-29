@@ -76,6 +76,7 @@ include("../../../objects/employee/hr/getlogged_employee.php");
                   <option value="Warehouse Manager">Warehouse Manager</option>
                   <option value="Human Resource">Human Resource</option>
                   <option value="Customer Manager">Customer Manager</option>
+                  <option value="Product Manager">Product Manager</option>
                 </select>
               </div>
               <div class="form-group col-md-6">

@@ -1,7 +1,7 @@
 <?php
 
 session_start();
-
+require '../../../config/Database.php'; 
 include("employee.php");
 $database = new Database();
 $pdo = $database->getConnection();
