@@ -1,7 +1,18 @@
 
 <?php include ("../includes/header.php") ?>
-<?php include ("../../../objects/product/category/veiw_category.php") 
+<?php include ("../../../objects/product/category/veiw_category.php") ?>
+<?php
 
+
+require_once '../../../objects/employee/stock/veiw_stock.php'; // Assuming the Stock class file path is correct
+
+// Instantiate database and stock object
+$database = new Database();
+$db = $database->getConnection();
+$stock = new Stock($db);
+
+// Retrieve all stocks
+$Stocks = $stock->read();
 ?>
 <div class="container-fluid">
   <div class="row">
@@ -66,7 +77,7 @@
                 <label for="productCategory" class="col-sm-2 col-form-label">Product Category:</label>
                 <div class="col-sm-6">
                     <select class="form-control" id="productCategory" name="productCategory" required>
-                        <option value="">Select a category</option>
+                        <option value="">Select a category </option>
                         <?php foreach ($categories as $category): ?>
                             <option value="<?php echo htmlspecialchars($category['id']); ?>">
                                 <?php echo htmlspecialchars($category['categoryName']); ?>
@@ -80,16 +91,6 @@
             </div><br>
 
             <div class="form-group row">
-                <label for="productAvailability" class="col-sm-2 col-form-label">Product Availability:</label>
-                <div class="col-sm-6">
-                    <input type="text" class="form-control" id="productAvailability" name="productAvailability" required>
-                    <div class="invalid-feedback" style="margin-left:600px;margin-top:-5%;">
-                        Please enter the product availability.
-                    </div>
-                </div>
-            </div><br>
-
-            <div class="form-group row">
                 <label for="quantity" class="col-sm-2 col-form-label">Quantity:</label>
                 <div class="col-sm-6">
                     <input type="number" class="form-control" id="quantity" name="quantity" required>
@@ -98,17 +99,23 @@
                     </div>
                 </div>
             </div><br>
-
             <div class="form-group row">
-                <label for="stock" class="col-sm-2 col-form-label">Stock:</label>
+                <label for="stock" class="col-sm-2 col-form-label">Product stock:</label>
                 <div class="col-sm-6">
-                    <input type="text" class="form-control" id="stock" name="stock" required>
+                    <select class="form-control" id="stock" name="stock" required>
+                        <option value="">Select a stock and location</option>
+                            <?php foreach($Stocks as $Stock): ?>
+                            <option value="<?php echo htmlspecialchars($Stock['id']); ?>">
+                                <?php echo htmlspecialchars($Stock['category']); ?>
+                                <?php echo htmlspecialchars($Stock['location']); ?>
+                            </option>
+                        <?php endforeach; ?>
+                    </select>
                     <div class="invalid-feedback" style="margin-left:600px;margin-top:-5%;">
-                        Please enter the stock.
+                        Please select a product category.
                     </div>
                 </div>
             </div><br>
-
             <div class="form-group row">
                 <label for="productDescription" class="col-sm-2 col-form-label">Product Description:</label>
                 <div class="col-sm-6">
@@ -154,5 +161,4 @@
   </div>
 </div>
 <?php include("includes/footer.php") ?>
-    </body>
-    </html>
+ 

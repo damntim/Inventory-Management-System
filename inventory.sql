@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jul 29, 2024 at 02:32 PM
+-- Generation Time: Jul 29, 2024 at 05:02 PM
 -- Server version: 10.4.6-MariaDB
 -- PHP Version: 7.1.32
 
@@ -81,7 +81,11 @@ CREATE TABLE `employees` (
 --
 
 INSERT INTO `employees` (`id`, `employee_id`, `full_name`, `gmail`, `phone`, `dob`, `gender`, `resident_gps`, `image`, `position`, `hired_date`, `contract_type`, `contract_length`, `bank_name`, `bank_account_number`, `status`, `password`, `created_at`) VALUES
-(6, '1', 'Human Resource', 'hr@gmail.com', '0785498054', '2024-07-18', 'Male', 'https://maps.app.goo.gl/QCPsDzNV5NFzQmwz7', '2.jpg', 'Human Resource', '2024-07-31', 'full_time', 12, 'equity', '2345678', 'Active', '12345678', '2024-07-25 19:59:04');
+(6, '1', 'Human Resource', 'hr@gmail.com', '0785498054', '2024-07-18', 'Male', 'https://maps.app.goo.gl/QCPsDzNV5NFzQmwz7', '2.jpg', 'Human Resource', '2024-07-31', 'full_time', 12, 'equity', '2345678', 'Active', '12345678', '2024-07-25 19:59:04'),
+(15, '2', 'wera house', 'werahouse@gmail.com', '0785498052', '2024-07-18', 'Male', 'https://maps.app.goo.gl/TFCxKVBofKWh6Y7v8', 'messi.jpg', 'Stock Manager', '2024-07-19', 'full_time', 4, 'equity', '2345678', 'Active', '12345678', '2024-07-29 14:16:24'),
+(16, '3', 'Stock Manager', 'stock@gmail.com', '0785498054', '2024-07-01', 'Male', 'https://maps.app.goo.gl/QCPsDzNV5NFzQmwz7', 'jude.jpg', 'Stock Manager', '2024-07-01', 'full_time', 2, 'equity', '234567', 'Active', '12345678', '2024-07-29 14:25:42'),
+(17, '4', 'Customer Manager', 'custom@gmail.com', '23456789', '2024-07-17', 'Male', 'https://maps.app.goo.gl/QCPsDzNV5NFzQmwz7', 'sanco.jpg', 'Stock Manager', '2024-07-24', 'full_time', 2, 'equity', '55565', 'Active', '12345678', '2024-07-29 14:26:57'),
+(18, '5', 'Producrt Manager', 'product@gmail.com', '111111111', '2024-07-01', 'Male', 'https://maps.app.goo.gl/TFCxKVBofKWh6Y7v8', 'j.jpg', 'Stock Manager', '2024-07-17', 'full_time', 2, 'equity', '45678', 'Active', '123', '2024-07-29 14:28:29');
 
 -- --------------------------------------------------------
 
@@ -97,6 +101,28 @@ CREATE TABLE `prices` (
   `partnerID` int(11) NOT NULL,
   `netprice` decimal(10,2) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `stocks`
+--
+
+CREATE TABLE `stocks` (
+  `id` int(11) NOT NULL,
+  `category` varchar(255) NOT NULL,
+  `location` varchar(255) NOT NULL,
+  `description` text NOT NULL,
+  `created_at` datetime NOT NULL,
+  `updated_at` datetime NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `stocks`
+--
+
+INSERT INTO `stocks` (`id`, `category`, `location`, `description`, `created_at`, `updated_at`) VALUES
+(1, 'food', 'kimiromko', 'child', '2024-07-29 15:46:07', '2024-07-29 15:46:07');
 
 --
 -- Indexes for dumped tables
@@ -122,6 +148,12 @@ ALTER TABLE `prices`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indexes for table `stocks`
+--
+ALTER TABLE `stocks`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- AUTO_INCREMENT for dumped tables
 --
 
@@ -135,13 +167,19 @@ ALTER TABLE `categories`
 -- AUTO_INCREMENT for table `employees`
 --
 ALTER TABLE `employees`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
 
 --
 -- AUTO_INCREMENT for table `prices`
 --
 ALTER TABLE `prices`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `stocks`
+--
+ALTER TABLE `stocks`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
