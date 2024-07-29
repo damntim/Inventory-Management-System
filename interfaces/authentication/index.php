@@ -17,7 +17,7 @@ include "header.php";
         if ($auth->login()) {
             $position = $_SESSION['position'];
             if ($position == 'Human Resource') {
-                header("Location: ../employee/hr/index.php");
+                header("Location: ../employee/sm/index.php");
             } elseif ($position == 'Product Manager') {
                 header("Location: ../employee/pm/index.php");
             } elseif ($position == 'Stock Manager') {
