@@ -40,11 +40,11 @@
             <h5 class="mb-1"><b>Add Product Category</b></h5> 
    
 
-        <form action="" method="post" class="needs-validation form-shadow" novalidate >
+        <form action="../../../objects/product/cataegory/add_category.php" method="post" class="needs-validation form-shadow" novalidate >
             <div class="form-group row">
                 <label for="categoryName" class="col-sm-2 col-form-label">Category Name:</label>
                 <div class="col-sm-6">
-                    <input type="text" class="form-control" id="categoryName" name="producategoryNamectID" required>
+                    <input type="text" class="form-control" id="categoryName" name="categoryName" required>
                     <div class="invalid-feedback" style="margin-left:600px;margin-top:-5%;">
                         Please enter the category name.
                     </div>
