@@ -1,16 +1,8 @@
-<html>
-    <head>
-    <style>
-        .form-shadow {
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
-            padding: 20px;
-           font-weight:bold;
-            border-radius: 8px;
-        }
-    </style>
-    </head>
-    <body>
+
 <?php include ("../includes/header.php") ?>
+<?php include ("../../../objects/product/category/veiw_category.php") 
+
+?>
 <div class="container-fluid">
   <div class="row">
     <?php include("includes/navbar.php")?>
@@ -70,13 +62,19 @@
                     </div>
                 </div>
             </div><br>
-
             <div class="form-group row">
                 <label for="productCategory" class="col-sm-2 col-form-label">Product Category:</label>
                 <div class="col-sm-6">
-                    <input type="text" class="form-control" id="productCategory" name="productCategory" required>
-                    <div class="invalid-feedback"style="margin-left:600px;margin-top:-5%;">
-                        Please enter the product category.
+                    <select class="form-control" id="productCategory" name="productCategory" required>
+                        <option value="">Select a category</option>
+                        <?php foreach ($categories as $category): ?>
+                            <option value="<?php echo htmlspecialchars($category['id']); ?>">
+                                <?php echo htmlspecialchars($category['categoryName']); ?>
+                            </option>
+                        <?php endforeach; ?>
+                    </select>
+                    <div class="invalid-feedback" style="margin-left:600px;margin-top:-5%;">
+                        Please select a product category.
                     </div>
                 </div>
             </div><br>
