@@ -25,12 +25,10 @@
 
       <div class="d-flex justify-content-between align-items-center mb-3">
         <h2>Current Stock</h2>
-        <button onclick="window.location.href='add_stock.php'" class="btn btn-primary">Add Stock</button>
+        <button onclick="window.location.href='../../../objects/employee/stock/add_stock.php'" class="btn btn-primary">Add Stock</button>
       </div>
 
       <div class="table-responsive small">
-        <!-- <p class="">Your Contents here please!!!</p> -->
-
         <?php
         require '../../../config/Database.php'; // Ensure this path is correct for including your Database.php file
 
@@ -74,9 +72,9 @@
                           <td>{$row['Category']}</td>
                           <td>{$row['Location']}</td>
                           <td>
-                              <a href='view_stock.php?id={$row['ProductId']}' class='btn btn-info btn-sm'>View</a>
-                              <a href='update_stock.php?id={$row['ProductId']}' class='btn btn-warning btn-sm'>Update</a>
-                              <a href='delete_stock.php?id={$row['ProductId']}' class='btn btn-danger btn-sm'>Delete</a>
+                              <a href='../../../objects/employee/stock/view_stock.php?id={$row['ProductId']}' class='btn btn-info btn-sm'>View</a>
+                              <a href='../../../objects/employee/stock/update_stock.php?id={$row['ProductId']}' class='btn btn-warning btn-sm'>Update</a>
+                              <a href='../../../objects/employee/stock/delete_stock.php?id={$row['ProductId']}' class='btn btn-danger btn-sm'>Delete</a>
                           </td>
                       </tr>";
                   }
