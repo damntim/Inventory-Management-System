@@ -1,5 +1,6 @@
 <?php
-require '../../../config/Database.php'; 
+
+
 include("employee.php");
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {

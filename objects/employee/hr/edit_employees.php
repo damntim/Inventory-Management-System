@@ -1,6 +1,5 @@
 <?php
 session_start();
-require '../../../config/Database.php'; 
 
 include("employee.php"); // Assuming get_employee.php contains necessary includes and database connection
 $database = new Database();

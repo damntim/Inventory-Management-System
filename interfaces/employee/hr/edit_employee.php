@@ -72,7 +72,6 @@ include("../../../objects/employee/hr/get_employee.php");
                   <option value="Warehouse Manager" <?php if ($employee_data['position'] == 'Warehouse Manager') echo 'selected'; ?>>Warehouse Manager</option>
                   <option value="Human Resource" <?php if ($employee_data['position'] == 'Human Resource') echo 'selected'; ?>>Human Resource</option>
                   <option value="Customer Manager" <?php if ($employee_data['position'] == 'Customer Manager') echo 'selected'; ?>>Customer Manager</option>
-                  <option value="Product Manager" <?php if ($employee_data['position'] == 'Product Manager') echo 'selected'; ?>>Product Manager</option>
                 </select>
               </div>
               <div class="form-group col-md-6">
