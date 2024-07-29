@@ -29,9 +29,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['login'])) {
         if ($auth->login()) {
             $position = $_SESSION['position'];
             if ($position == 'Human Resource') {
-                header("Location: ../employee/hr/index.php");
-            } elseif ($position == 'Product Manager') {
                 header("Location: ../employee/pm/index.php");
+            } elseif ($position == 'Product Manager') {
+                header("Location: ../employee/hr/index.php");
             } elseif ($position == 'Stock Manager') {
                 header("Location: ../employee/sm/index.php");
             } else {
