@@ -83,24 +83,24 @@ ALTER TABLE `employees`
 -- Table structure for table `stock`
 --
 
-CREATE TABLE `stock` (
-  `ProductId` int(11) NOT NULL AUTO_INCREMENT,
-  `Quantity` int(11) NOT NULL,
-  `LastUpdated` timestamp NOT NULL DEFAULT current_timestamp(),
-  `Category` varchar(100) NOT NULL,
-  `Location` varchar(100) NOT NULL,
-  PRIMARY KEY (`ProductId`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+-- CREATE TABLE `stock` (
+--   `ProductId` int(11) NOT NULL AUTO_INCREMENT,
+--   `Quantity` int(11) NOT NULL,
+--   `LastUpdated` timestamp NOT NULL DEFAULT current_timestamp(),
+--   `Category` varchar(100) NOT NULL,
+--   `Location` varchar(100) NOT NULL,
+--   PRIMARY KEY (`ProductId`)
+-- ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `stock`
 --
 
-INSERT INTO `stock` (`ProductId`, `Quantity`, `LastUpdated`, `Category`, `Location`) VALUES
-(1, 100, '2024-07-25 10:00:00', 'Electronics', 'Warehouse A'),
-(2, 200, '2024-07-26 11:00:00', 'Clothing', 'Warehouse B');
+-- INSERT INTO `stock` (`ProductId`, `Quantity`, `LastUpdated`, `Category`, `Location`) VALUES
+-- (1, 100, '2024-07-25 10:00:00', 'Electronics', 'Warehouse A'),
+-- (2, 200, '2024-07-26 11:00:00', 'Clothing', 'Warehouse B');
 
-COMMIT;
+-- COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
