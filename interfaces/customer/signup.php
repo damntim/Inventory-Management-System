@@ -55,7 +55,7 @@
     </header>
 
     <div class="form-container">
-        <form action="signupinsertion.php" method="POST" enctype="multipart/form-data" onsubmit="return validateForm()">
+        <form action="../../objects/customers/signupinsertion.php" method="POST" enctype="multipart/form-data" onsubmit="return validateForm()">
             <h2>Customer Registration Form</h2>
             <label for="fullname">Full Name:</label>
             <input type="text" id="fullname" name="fullname" required>

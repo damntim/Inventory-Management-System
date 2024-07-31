@@ -1,5 +1,5 @@
 <?php
-require_once 'Database.php';
+ include_once '../../config/database.php';
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $database = new Database();
@@ -14,7 +14,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $photo = $_FILES['photo']['name'];
 
     // File upload path
-    $targetDir = "uploads/";
+    $targetDir = "'../../../images/customers/'";
     $targetFilePath = $targetDir . basename($photo);
     move_uploaded_file($_FILES['photo']['tmp_name'], $targetFilePath);
 
@@ -33,7 +33,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         if($stmt->execute()) {
             echo "<script>alert('Data inserted successfully');</script>";
-            // header("Location: view_customers.php");
+             header("Location: ../../interfaces/authentication/index.php");
         } else {
             echo "<script>alert('Data insertion failed');</script>";
         }
