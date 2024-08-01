@@ -73,6 +73,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['login'])) {
                         <div class="col-lg-12 logined mt-3">
                             <button type="submit" name="login" class="btn btn-primary form-control">Login</button>
                         </div>
+                        <div class="d-flex flex-row my-2">
+                                Don't you have an account ?<a href="../customer/signup.php" class="text-success  mx-1"> Sign up as a customer</a>
+                            </div>
                     </form>
                   <?php echo $error_message ?? null ?>
                 </div>

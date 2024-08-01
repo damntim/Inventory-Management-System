@@ -26,7 +26,7 @@
 
       <h2>Section title</h2>
       <div class="table-responsive small">
-        <p class="">Your Contents here please!!!</p>
+        <p class="">display Contents here please!!!</p>
       </div>
     </main>
   </div>
