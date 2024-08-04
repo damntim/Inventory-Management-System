@@ -40,35 +40,6 @@ class Authentication {
                 $_SESSION['image'] = $image;
                 return true;
             }
-        } else {
-            // Check in the customers table
-            $query = "SELECT id, fullname, email, photo, password FROM " . $this->customer_table . " WHERE email = ? LIMIT 0,1";
-            $stmt = $this->conn->prepare($query);
-            $stmt->bindParam(1, $this->email);
-            $stmt->execute();
-            $num = $stmt->rowCount();
-
-            if ($num > 0) {
-                $row = $stmt->fetch(PDO::FETCH_ASSOC);
-                $id = $row['id'];
-                $fullname = $row['fullname'];
-                $email = $row['email'];
-                $photo = $row['photo'];
-                $password2 = $row['password'];
-
-                if (($this->password == $password2)) {
-                    if (session_status() == PHP_SESSION_NONE) {
-                        session_start();
-                    }
-                    $_SESSION['id'] = $id;
-                    $_SESSION['fullname'] = $fullname;
-                    $_SESSION['email'] = $email;
-                    $_SESSION['photo'] = $photo;
-                    // Redirect to main.php for customers
-                    header("Location: ../products/index.php");
-                    exit;
-                }
-            }
         }
         return false;
     }

@@ -1,6 +1,8 @@
 <?php
 require '../../../config/Database.php'; 
 include("employee.php");
+$database = new Database();
+$pdo = $database->getConnection();
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // Retrieve form data

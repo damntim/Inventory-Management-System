@@ -1,14 +1,19 @@
 -- phpMyAdmin SQL Dump
--- version 4.9.0.1
+-- version 5.2.0
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
+<<<<<<< HEAD
 -- Generation Time: Jul 29, 2024 at 09:55 PM
 -- Server version: 10.4.6-MariaDB
 -- PHP Version: 7.1.32
+=======
+-- Generation Time: Jul 30, 2024 at 09:26 AM
+-- Server version: 10.4.27-MariaDB
+-- PHP Version: 8.0.25
+>>>>>>> 73b688557fa0006d2b819a26541ef1c190876430
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
-SET AUTOCOMMIT = 0;
 START TRANSACTION;
 SET time_zone = "+00:00";
 
@@ -33,7 +38,7 @@ CREATE TABLE `categories` (
   `categoryName` varchar(255) NOT NULL,
   `categoryDescription` text NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 --
 -- Dumping data for table `categories`
@@ -65,7 +70,11 @@ CREATE TABLE `customers` (
   `password` varchar(255) NOT NULL,
   `photo` varchar(255) NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT current_timestamp()
+<<<<<<< HEAD
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+=======
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+>>>>>>> 73b688557fa0006d2b819a26541ef1c190876430
 
 --
 -- Dumping data for table `customers`
@@ -99,7 +108,7 @@ CREATE TABLE `employees` (
   `status` enum('Active','Inactive') NOT NULL,
   `password` varchar(255) NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 --
 -- Dumping data for table `employees`
@@ -125,7 +134,56 @@ CREATE TABLE `prices` (
   `pricestype` varchar(50) NOT NULL,
   `partnerID` int(11) NOT NULL,
   `netprice` decimal(10,2) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `products`
+--
+
+CREATE TABLE `products` (
+  `id` int(11) NOT NULL,
+  `productName` varchar(255) NOT NULL,
+  `productImage` varchar(255) NOT NULL,
+  `supplyPrice` int(11) NOT NULL,
+  `sellingPrice` int(11) DEFAULT NULL,
+  `productCategory` int(11) NOT NULL,
+  `quantity` int(11) NOT NULL,
+  `stock` int(11) NOT NULL,
+  `productDescription` text NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `products`
+--
+
+INSERT INTO `products` (`id`, `productName`, `productImage`, `supplyPrice`, `sellingPrice`, `productCategory`, `quantity`, `stock`, `productDescription`, `created_at`, `updated_at`) VALUES
+(2, 'Jordan Future', '../../../images/products/Vicky.jpg', 7850, 35000, 5, 50, 1, 'High Quality', '2024-07-30 05:23:58', '2024-07-30 06:44:49'),
+(3, 'Maize', '../../../images/products/Vicky.jpg', 4300, 45000, 9, 430, 3, 'Maize Flour', '2024-07-30 06:50:48', '2024-07-30 07:21:33'),
+(4, 'f', '../../../images/products/Vicky.jpg', 400, 0, 11, 45, 1, 'jj', '2024-07-30 07:00:05', '2024-07-30 07:00:05');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `product_prices`
+--
+
+CREATE TABLE `product_prices` (
+  `id` int(11) NOT NULL,
+  `product_id` int(11) NOT NULL,
+  `price` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `product_prices`
+--
+
+INSERT INTO `product_prices` (`id`, `product_id`, `price`) VALUES
+(5, 2, 35000),
+(6, 3, 45000);
 
 -- --------------------------------------------------------
 
@@ -140,7 +198,7 @@ CREATE TABLE `stocks` (
   `description` text NOT NULL,
   `created_at` datetime NOT NULL,
   `updated_at` datetime NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 --
 -- Dumping data for table `stocks`
@@ -148,7 +206,8 @@ CREATE TABLE `stocks` (
 
 INSERT INTO `stocks` (`id`, `category`, `location`, `description`, `created_at`, `updated_at`) VALUES
 (1, 'food', 'kimiromko', 'child', '2024-07-29 15:46:07', '2024-07-29 15:46:07'),
-(2, 'cars', 'kgl', 'moto', '2024-07-29 17:55:44', '2024-07-29 17:55:44');
+(2, 'cars', 'kgl', 'moto', '2024-07-29 17:55:44', '2024-07-29 17:55:44'),
+(3, 'JJ', 'Kih', 'ss', '2024-07-30 07:46:03', '2024-07-30 07:46:03');
 
 --
 -- Indexes for dumped tables
@@ -178,6 +237,21 @@ ALTER TABLE `employees`
 --
 ALTER TABLE `prices`
   ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `products`
+--
+ALTER TABLE `products`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `productCategory` (`productCategory`),
+  ADD KEY `stock` (`stock`);
+
+--
+-- Indexes for table `product_prices`
+--
+ALTER TABLE `product_prices`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `product_id` (`product_id`);
 
 --
 -- Indexes for table `stocks`
@@ -214,10 +288,39 @@ ALTER TABLE `prices`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
+-- AUTO_INCREMENT for table `products`
+--
+ALTER TABLE `products`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+
+--
+-- AUTO_INCREMENT for table `product_prices`
+--
+ALTER TABLE `product_prices`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+
+--
 -- AUTO_INCREMENT for table `stocks`
 --
 ALTER TABLE `stocks`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+--
+-- Constraints for dumped tables
+--
+
+--
+-- Constraints for table `products`
+--
+ALTER TABLE `products`
+  ADD CONSTRAINT `products_ibfk_1` FOREIGN KEY (`productCategory`) REFERENCES `categories` (`id`),
+  ADD CONSTRAINT `products_ibfk_2` FOREIGN KEY (`stock`) REFERENCES `stocks` (`id`);
+
+--
+-- Constraints for table `product_prices`
+--
+ALTER TABLE `product_prices`
+  ADD CONSTRAINT `product_prices_ibfk_1` FOREIGN KEY (`product_id`) REFERENCES `products` (`id`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
