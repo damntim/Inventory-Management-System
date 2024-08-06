@@ -20,7 +20,7 @@ if (isset($_GET['supplier_id'])) {
         $query = "SELECT product.fullname,product.id  
                   FROM supplier 
                   JOIN prices ON supplier.id = prices.paternerID 
-                  WHERE prices.supplierID = ? AND prices.pricetype = 'purchase'";
+                  WHERE prices.productID = ? AND prices.pricetype = 'purchase'";
 
         $stmt = $db->prepare($query);
         if ($stmt->execute([$supplier_id])) {
