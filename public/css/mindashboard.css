@@ -182,10 +182,6 @@ footer {
 }
 
 .login-button, .signup-button {
-<<<<<<< HEAD
-=======
-    /* Add your styling here */
->>>>>>> 73b688557fa0006d2b819a26541ef1c190876430
     padding: 10px 20px;
     background-color: #4CAF50;
     color: white;
@@ -195,20 +191,13 @@ footer {
 }
 
 .signup-button {
-<<<<<<< HEAD
     background-color: #f44336;
-=======
-    background-color: #f44336; /* Different color for signup button */
->>>>>>> 73b688557fa0006d2b819a26541ef1c190876430
     color: white;
     text-decoration: none;
     border-radius: 5px;
     margin-right: 10px;
     padding: 10px 20px;
 }
-<<<<<<< HEAD
 
 
 
-=======
->>>>>>> 73b688557fa0006d2b819a26541ef1c190876430

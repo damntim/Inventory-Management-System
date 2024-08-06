@@ -14,7 +14,6 @@
               </a>
             </li>
             <li class="nav-item">
-<<<<<<< HEAD
               <a class="nav-link d-flex align-items-center gap-2" href="addproduct.php">
                 <svg class="bi"><use xlink:href="#file-earmark"/></svg>
                 Add NewProduct
@@ -36,17 +35,6 @@
               <a class="nav-link d-flex align-items-center gap-2" href="add_stockin.php">
                 <svg class="bi"><use xlink:href="#cart"/></svg>
                Add Stockin
-=======
-              <a class="nav-link d-flex align-items-center gap-2" href="view_products.php">
-                <svg class="bi"><use xlink:href="#file-earmark"/></svg>
-                Product
-              </a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link d-flex align-items-center gap-2" href="viewprice.php">
-                <svg class="bi"><use xlink:href="#cart"/></svg>
-                Price
->>>>>>> 73b688557fa0006d2b819a26541ef1c190876430
               </a>
             </li>
             <li class="nav-item">

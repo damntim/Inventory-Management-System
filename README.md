@@ -1,4 +1,4 @@
-# Inventory-Management-System(pls dont push to main)
+# Inventory-Management-System
 1.group irajya ishaka umuntu uzi gukoresha git(akore branch in the of your task ex:hr irimo naraniza a pull)
 
 2.murakorana between of you mukorane  tasks
