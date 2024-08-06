@@ -19,21 +19,27 @@ if (isset($_GET['product_id'])) {
         // Fetch supplier with prices for the selected product
         $query = "SELECT supplier.id, supplier.fullname 
                   FROM supplier 
-                  JOIN prices ON supplier.id = prices.paternerID 
-                  WHERE prices.productID = ? AND prices.pricetype = 'purchase'";
-
+                  JOIN prices ON supplier.id = prices.supplier_id 
+                  WHERE prices.product_id = :product_id";
+        
         $stmt = $db->prepare($query);
-        if ($stmt->execute([$product_id])) {
-            $supplier = $stmt->fetchAll(PDO::FETCH_ASSOC);
-            $response = ['status' => 'success', 'supplier' => $supplier];
-        } else {
-            $response['message'] = 'Failed to execute query.';
+        $stmt->bindParam(':product_id', $product_id);
+        $stmt->execute();
+
+        $suppliers = [];
+
+        while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+            $suppliers[] = $row;
         }
+
+        $response['status'] = 'success';
+        $response['supplier'] = $suppliers;
+
     } catch (Exception $e) {
         $response['message'] = $e->getMessage();
     }
 } else {
-    $response['message'] = 'Product ID not provided.';
+    $response['message'] = 'Product ID not provided';
 }
 
 echo json_encode($response);
