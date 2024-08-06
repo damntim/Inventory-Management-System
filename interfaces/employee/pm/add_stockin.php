@@ -12,6 +12,7 @@ $product = new Product($db);
 $supplier = new Supplier($db);
 
 $products = $product->getProducts();
+$suppliers = $supplier->getSupplier(); // Fetch all suppliers
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $stockin->product_id = $_POST['product_id'];
@@ -20,14 +21,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     // Fetch price details
     $price_details = $stockin->fetchPriceDetails($stockin->product_id, $stockin->partner_id);
-    
+
     if ($price_details) {
         $stockin->amount = $price_details['amount'];
         $stockin->netprice = $price_details['netprice'];
-        $stockin->totalprice = $price_details['netprice']*$stockin->quantity = $_POST['quantity'];
+        $stockin->totalprice = $price_details['netprice'] * $_POST['quantity'];
         $stockin->taxrate = $price_details['taxrate'];
         $stockin->discount = $price_details['discount'];
-        
+
         // Calculate total price
         $total_price = $stockin->quantity * $stockin->netprice;
 
@@ -54,30 +55,32 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <div class="container">
                 <form id="addStockForm" action="" method="post" class="needs-validation form-shadow" novalidate>
                     <div class="form-group row">
-                        <label for="product_id" class="col-sm-2 col-form-label">Product:</label>
-                        <div class="col-sm-6">
-                            <select class="form-control" id="product_id" name="product_id" required>
-                                <option value="">Select a product</option>
-                                <?php while ($row = $products->fetch(PDO::FETCH_ASSOC)): ?>
-                                    <option value="<?php echo htmlspecialchars($row['product_id']); ?>">
-                                        <?php echo htmlspecialchars($row['product_name'].$row['product_id']); ?>
-                                    </option>
-                                <?php endwhile; ?>
-                            </select>
-                            <div class="invalid-feedback">
-                                Please select a product.
-                            </div>
-                        </div>
-                    </div><br>
-
-                    <div class="form-group row">
                         <label for="supplier_id" class="col-sm-2 col-form-label">Supplier:</label>
                         <div class="col-sm-6">
                             <select class="form-control" id="supplier_id" name="supplier_id" required>
                                 <option value="">Select a supplier</option>
+                                <?php while ($row = $suppliers->fetch(PDO::FETCH_ASSOC)): ?>
+                                    <option value="<?php echo htmlspecialchars($row['id']); ?>">
+                                        <?php echo htmlspecialchars($row['fullname']); ?>
+                                    </option>
+                                <?php endwhile; ?>
                             </select>
                             <div class="invalid-feedback">
                                 Please select a supplier.
+                            </div>
+                        </div>
+                    </div><br>
+                    <div class="form-group row">
+                        <label for="product_id" class="col-sm-2 col-form-label">Product:</label>
+                        <div class="col-sm-6">
+                            <select class="form-control" id="product_id" name="product_id" required>
+                                <option value="">Select a product</option>
+                                
+                                    </option>
+                                
+                            </select>
+                            <div class="invalid-feedback">
+                                Please select a product.
                             </div>
                         </div>
                     </div><br>
@@ -90,8 +93,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                 <input type="text" class="form-control" id="amount" name="amount" readonly>
                             </div>
                         </div><br>
-
-
 
                         <div class="form-group row">
                             <label for="taxrate" class="col-sm-2 col-form-label">Tax Rate:</label>
@@ -149,8 +150,8 @@ $(document).ready(function() {
                 success: function(response) {
                     console.log(response);  // Debug log to check the response
                     if (response.status === 'success') {
-                        $('#supplier_id').empty().append('<option value="">Select a supplier from get supplier</option>');
-                        $.each(response.supplier, function(index, supplier) {
+                        $('#supplier_id').empty().append('<option value="">Select a supplier</option>');
+                        $.each(response.suppliers, function(index, supplier) {
                             $('#supplier_id').append('<option value="' + supplier.id + '">' + supplier.fullname + '</option>');
                         });
                     } else {
