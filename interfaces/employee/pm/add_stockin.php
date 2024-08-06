@@ -1,4 +1,5 @@
 <?php
+// session_start();
 include("../includes/header.php");
 require_once '../../../objects/product/stockin/Stockin.php';
 require_once '../../../objects/product/product/Product.php';
@@ -11,34 +12,44 @@ $stockin = new Stockin($db);
 $product = new Product($db);
 $supplier = new Supplier($db);
 
-$products = $product->getProducts();
+$suppliers = $supplier->getSupplier();
 
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $stockin->product_id = $_POST['product_id'];
-    $stockin->quantity = $_POST['quantity'];
-    $stockin->partner_id = $_POST['supplier_id'];
+if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['action'])) {
+    if ($_POST['action'] == 'add_to_cart') {
+        $cart_item = [
+            'supplier_id' => $_POST['supplier_id'],
+            'supplier_name' => $_POST['supplier_name'],
+            'product_id' => $_POST['product_id'],
+            'product_name' => $_POST['product_name'],
+            'quantity' => $_POST['quantity'],
+            'amount' => $_POST['amount'],
+            'netprice' => $_POST['netprice'],
+            'taxrate' => $_POST['taxrate'],
+            'discount' => $_POST['discount'],
+        ];
 
-    // Fetch price details
-    $price_details = $stockin->fetchPriceDetails($stockin->product_id, $stockin->partner_id);
-    
-    if ($price_details) {
-        $stockin->amount = $price_details['amount'];
-        $stockin->netprice = $price_details['netprice'];
-        $stockin->totalprice = $price_details['netprice']*$stockin->quantity = $_POST['quantity'];
-        $stockin->taxrate = $price_details['taxrate'];
-        $stockin->discount = $price_details['discount'];
-        
-        // Calculate total price
-        $total_price = $stockin->quantity * $stockin->netprice;
-
-        // Create stockin record
-        if ($stockin->create()) {
-            echo "<div class='alert alert-success'>Purchase successful. Total Price: $$total_price</div>";
-        } else {
-            echo "<div class='alert alert-danger'>Unable to add stock. Please try again.</div>";
+        if (!isset($_SESSION['cart'])) {
+            $_SESSION['cart'] = [];
         }
-    } else {
-        echo "<div class='alert alert-danger'>Unable to fetch price details. Please try again.</div>";
+        $_SESSION['cart'][] = $cart_item;
+        echo "<div class='alert alert-success'>Item added to cart.</div>";
+    } elseif ($_POST['action'] == 'purchase_all') {
+        foreach ($_SESSION['cart'] as $item) {
+            $stockin->product_id = $item['product_id'];
+            $stockin->quantity = $item['quantity'];
+            $stockin->partner_id = $item['supplier_id'];
+            $stockin->amount = $item['amount'];
+            $stockin->netprice = $item['netprice'];
+            $stockin->taxrate = $item['taxrate'];
+            $stockin->discount = $item['discount'];
+            $stockin->totalprice = $item['netprice'] * $stockin->quantity;
+            
+            if (!$stockin->create()) {
+                echo "<div class='alert alert-danger'>Unable to add stock for {$item['product_name']}. Please try again.</div>";
+            }
+        }
+        $_SESSION['cart'] = [];
+        echo "<div class='alert alert-success'>All items purchased successfully.</div>";
     }
 }
 ?>
@@ -54,30 +65,30 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <div class="container">
                 <form id="addStockForm" action="" method="post" class="needs-validation form-shadow" novalidate>
                     <div class="form-group row">
-                        <label for="product_id" class="col-sm-2 col-form-label">Product:</label>
+                        <label for="supplier_id" class="col-sm-2 col-form-label">Supplier:</label>
                         <div class="col-sm-6">
-                            <select class="form-control" id="product_id" name="product_id" required>
-                                <option value="">Select a product</option>
-                                <?php while ($row = $products->fetch(PDO::FETCH_ASSOC)): ?>
-                                    <option value="<?php echo htmlspecialchars($row['product_id']); ?>">
-                                        <?php echo htmlspecialchars($row['product_name'].$row['product_id']); ?>
+                            <select class="form-control" id="supplier_id" name="supplier_id" required>
+                                <option value="">Select a supplier</option>
+                                <?php while ($row = $suppliers->fetch(PDO::FETCH_ASSOC)): ?>
+                                    <option value="<?php echo htmlspecialchars($row['id']); ?>" data-name="<?php echo htmlspecialchars($row['fullname']); ?>">
+                                        <?php echo htmlspecialchars($row['fullname']); ?>
                                     </option>
                                 <?php endwhile; ?>
                             </select>
                             <div class="invalid-feedback">
-                                Please select a product.
+                                Please select a supplier.
                             </div>
                         </div>
                     </div><br>
 
                     <div class="form-group row">
-                        <label for="supplier_id" class="col-sm-2 col-form-label">Supplier:</label>
+                        <label for="product_id" class="col-sm-2 col-form-label">Product:</label>
                         <div class="col-sm-6">
-                            <select class="form-control" id="supplier_id" name="supplier_id" required>
-                                <option value="">Select a supplier</option>
+                            <select class="form-control" id="product_id" name="product_id" required>
+                                <option value="">Select a product</option>
                             </select>
                             <div class="invalid-feedback">
-                                Please select a supplier.
+                                Please select a product.
                             </div>
                         </div>
                     </div><br>
@@ -90,8 +101,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                 <input type="text" class="form-control" id="amount" name="amount" readonly>
                             </div>
                         </div><br>
-
-
 
                         <div class="form-group row">
                             <label for="taxrate" class="col-sm-2 col-form-label">Tax Rate:</label>
@@ -118,7 +127,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     <div class="form-group row">
                         <label for="quantity" class="col-sm-2 col-form-label">Quantity:</label>
                         <div class="col-sm-6">
-                            <input type="number" class="form-control" id="quantity" name="quantity" required>
+                            <input type="number" class="form-control" id="quantity" name="quantity" value="0" required>
                             <div class="invalid-feedback">
                                 Please enter the quantity.
                             </div>
@@ -127,58 +136,107 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
                     <div class="row">
                         <div class="col-sm-8 offset-sm-4">
-                            <button type="submit" class="btn btn-primary">Purchase</button>
+                            <input type="hidden" name="action" value="add_to_cart">
+                            <input type="hidden" id="supplier_name" name="supplier_name">
+                            <input type="hidden" id="product_name" name="product_name">
+                            <button type="submit" class="btn btn-primary">Add to Cart</button>
                         </div>
                     </div>
                 </form>
             </div>
+
+            <div class="container mt-5">
+                <h2>Cart</h2>
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Supplier</th>
+                            <th>Product</th>
+                            <th>Quantity</th>
+                            <th>Price</th>
+                            <th>Net Price</th>
+                            <th>Tax Rate</th>
+                            <th>Discount</th>
+                            <th>Remove</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php if (isset($_SESSION['cart']) && count($_SESSION['cart']) > 0): ?>
+                            <?php foreach ($_SESSION['cart'] as $item): ?>
+                                <tr>
+                                    <td><?php echo htmlspecialchars($item['supplier_name']); ?></td>
+                                    <td><?php echo htmlspecialchars($item['product_name']); ?></td>
+                                    <td><?php echo htmlspecialchars($item['quantity']); ?></td>
+                                    <td><?php echo htmlspecialchars($item['amount']); ?></td>
+                                    <td><?php echo htmlspecialchars($item['netprice']); ?></td>
+                                    <td><?php echo htmlspecialchars($item['taxrate']); ?></td>
+                                    <td><?php echo htmlspecialchars($item['discount']); ?></td>
+                                    <td>
+                                <a href="deletecart.php"></a>
+                                </td>
+                                </tr>
+                            <?php endforeach; ?>
+                        <?php else: ?>
+                            <tr>
+                                <td colspan="7">No items in cart.</td>
+                            </tr>
+                        <?php endif; ?>
+                    </tbody>
+                </table>
+                <form action="" method="post">
+                    <input type="hidden" name="action" value="purchase_all">
+                    <button type="submit" class="btn btn-success">Purchase All</button>
+                </form>
+            </div>
+
             <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
             <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
             <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
             <script>
 $(document).ready(function() {
-    $('#product_id').change(function() {
-        var product_id = $(this).val();
+    $('#supplier_id').change(function() {
+        var supplier_id = $(this).val();
+        var supplier_name = $('#supplier_id option:selected').text();
+        $('#supplier_name').val(supplier_name);
 
-        if (product_id) {
+        if (supplier_id) {
             $.ajax({
-                url: 'get_suppliers.php',
+                url: 'get_products.php',
                 type: 'GET',
-                data: { product_id: product_id },
+                data: { supplier_id: supplier_id },
                 dataType: 'json',
                 success: function(response) {
-                    console.log(response);  // Debug log to check the response
                     if (response.status === 'success') {
-                        $('#supplier_id').empty().append('<option value="">Select a supplier from get supplier</option>');
-                        $.each(response.supplier, function(index, supplier) {
-                            $('#supplier_id').append('<option value="' + supplier.id + '">' + supplier.fullname + '</option>');
+                        $('#product_id').empty().append('<option value="">Select a product</option>');
+                        $.each(response.products, function(index, product) {
+                            $('#product_id').append('<option value="' + product.product_id + '" data-name="' + product.product_name + '">' + product.product_name + '</option>');
                         });
                     } else {
                         alert('Error: ' + response.message);
                     }
                 },
                 error: function(xhr, status, error) {
-                    console.log(xhr.responseText);
                     alert('AJAX error: ' + error);
                 }
             });
         } else {
-            $('#supplier_id').empty().append('<option value="">Select a supplier</option>');
+            $('#product_id').empty().append('<option value="">Select a product</option>');
         }
     });
 
-    $('#supplier_id').change(function() {
-        var product_id = $('#product_id').val();
-        var supplier_id = $(this).val();
+    $('#product_id').change(function() {
+        var supplier_id = $('#supplier_id').val();
+        var product_id = $(this).val();
+        var product_name = $('#product_id option:selected').text();
+        $('#product_name').val(product_name);
 
-        if (product_id && supplier_id) {
+        if (supplier_id && product_id) {
             $.ajax({
                 url: 'get_price_details.php',
                 type: 'GET',
                 data: { product_id: product_id, supplier_id: supplier_id },
                 dataType: 'json',
                 success: function(response) {
-                    console.log(response);  // Debug log to check the response
                     if (response.status === 'success') {
                         $('#amount').val(response.price_details.amount);
                         $('#netprice').val(response.price_details.netprice);
@@ -190,7 +248,6 @@ $(document).ready(function() {
                     }
                 },
                 error: function(xhr, status, error) {
-                    console.log(xhr.responseText);
                     alert('AJAX error: ' + error);
                 }
             });
