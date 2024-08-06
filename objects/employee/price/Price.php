@@ -47,6 +47,18 @@ class Price {
         return false;
     }
 
+    public function fetchPriceDetails($product_id, $supplier_id) {
+        $query = "SELECT amount, netprice, taxrate, discount FROM " . $this->table_name . " 
+                  WHERE product_id = :product_id AND partner_id = :partner_id AND pricetype = 'purchase'";
+
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindParam(':product_id', $product_id);
+        $stmt->bindParam(':partner_id', $supplier_id);
+        $stmt->execute();
+
+        return $stmt->fetch(PDO::FETCH_ASSOC);
+    }
+
     private function calculateNetPrice($amount, $taxrate, $discount) {
         $taxAmount = ($amount * $taxrate) / 100;
         $discountAmount = ($amount * $discount) / 100;

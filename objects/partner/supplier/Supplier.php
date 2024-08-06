@@ -29,11 +29,29 @@ class Supplier {
         return $stmt->execute();
     }
 
-    // Read all suppliers
-    public function getSuppliers() {
-        $query = "SELECT id, tin, fullname, email, address FROM " . $this->table_name;
+    public function getSuppliers($product_id) {
+        $query = "
+            SELECT s.id, s.tin, s.fullname, s.email, s.address 
+            FROM " . $this->table_name . " s
+            JOIN prices p ON s.id = p.paternerID
+            WHERE p.productID = :product_id
+            AND p.pricetype = 'purchase'
+        ";
+    
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindParam(':product_id', $product_id);
+        $stmt->execute();
+    
+        return $stmt;
+    }
+    public function getSupplier() {
+        $query = "
+            SELECT supplier.id, supplier.tin, supplier.fullname, supplier.email, supplier.address 
+            FROM " . $this->table_name ;
+    
         $stmt = $this->conn->prepare($query);
         $stmt->execute();
+    
         return $stmt;
     }
 

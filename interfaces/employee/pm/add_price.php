@@ -15,11 +15,11 @@ $customer = new Customer($db);
 $supplier = new Supplier($db);
 
 // Fetch products
-$products = $product->getProducts();
+$products = $product->getProduct();
 
 // Fetch customers and suppliers
 $customers = $customer->getCustomers();
-$suppliers = $supplier->getSuppliers();
+$suppliers = $supplier->getSupplier();
 
 // Handle form submission
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
@@ -160,19 +160,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
             <script>
                 (function() {
-                    'use strict';
-                    window.addEventListener('load', function() {
-                        var forms = document.getElementsByClassName('needs-validation');
-                        var validation = Array.prototype.filter.call(forms, function(form) {
-                            form.addEventListener('submit', function(event) {
-                                if (form.checkValidity() === false) {
-                                    event.preventDefault();
-                                    event.stopPropagation();
-                                }
-                                form.classList.add('was-validated');
-                            }, false);
-                        });
-                    }, false);
 
                     document.getElementById('pricetype').addEventListener('change', function() {
                         var type = this.value;

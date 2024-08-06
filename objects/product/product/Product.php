@@ -43,13 +43,31 @@ class Product {
         }
         return false;
     }
-
-    public function getProducts() {
-        $query = "SELECT * FROM " . $this->table_name;
+    public function getProduct() {
+        $query = "
+            SELECT p.* 
+            FROM " . $this->table_name . " p
+        ";
+    
         $stmt = $this->conn->prepare($query);
         $stmt->execute();
         return $stmt;
     }
+      
+
+    public function getProducts() {
+        $query = "
+            SELECT p.* 
+            FROM " . $this->table_name . " p
+            JOIN prices pr ON p.product_id = pr.productID
+            WHERE pr.pricetype = 'purchase'
+        ";
+    
+        $stmt = $this->conn->prepare($query);
+        $stmt->execute();
+        return $stmt;
+    }
+    
 
     // Read products with quantity > 0 in stockin table and pricetype = 'selling' in prices table
     public function readAvailableProducts() {

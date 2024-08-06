@@ -34,9 +34,15 @@
             <li class="nav-item">
               <a class="nav-link d-flex align-items-center gap-2" href="add_stockin.php">
                 <svg class="bi"><use xlink:href="#cart"/></svg>
-               Add Stockin
+               Purchase Product
               </a>
             </li>
+            <li class="nav-item">
+              <a class="nav-link d-flex align-items-center gap-2" href="display_stockin.php">
+                <svg class="bi"><use xlink:href="#cart"/></svg>
+               View Purchased products
+              </a>
+            </li>            
             <li class="nav-item">
               <a class="nav-link d-flex align-items-center gap-2" href="viewcategory.php">
                 <svg class="bi"><use xlink:href="#people"/></svg>
