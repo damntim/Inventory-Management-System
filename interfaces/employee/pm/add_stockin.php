@@ -12,6 +12,7 @@ $product = new Product($db);
 $supplier = new Supplier($db);
 
 $products = $product->getProducts();
+$suppliers=$supplier->getSupplier();
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $stockin->product_id = $_POST['product_id'];
@@ -53,31 +54,33 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             </div>
             <div class="container">
                 <form id="addStockForm" action="" method="post" class="needs-validation form-shadow" novalidate>
-                    <div class="form-group row">
-                        <label for="product_id" class="col-sm-2 col-form-label">Product:</label>
-                        <div class="col-sm-6">
-                            <select class="form-control" id="product_id" name="product_id" required>
-                                <option value="">Select a product</option>
-                                <?php while ($row = $products->fetch(PDO::FETCH_ASSOC)): ?>
-                                    <option value="<?php echo htmlspecialchars($row['product_id']); ?>">
-                                        <?php echo htmlspecialchars($row['product_name'].$row['product_id']); ?>
-                                    </option>
-                                <?php endwhile; ?>
-                            </select>
-                            <div class="invalid-feedback">
-                                Please select a product.
-                            </div>
-                        </div>
-                    </div><br>
+                    
 
                     <div class="form-group row">
                         <label for="supplier_id" class="col-sm-2 col-form-label">Supplier:</label>
                         <div class="col-sm-6">
                             <select class="form-control" id="supplier_id" name="supplier_id" required>
                                 <option value="">Select a supplier</option>
+                                <?php while ($row = $suppliers->fetch(PDO::FETCH_ASSOC)): ?>
+                                    <option value="<?php echo htmlspecialchars($row['id']); ?>">
+                                        <?php echo htmlspecialchars($row['fullname']); ?>
+                                    </option>
+                                <?php endwhile; ?>
                             </select>
                             <div class="invalid-feedback">
                                 Please select a supplier.
+                            </div>
+                        </div>
+                    </div><br>
+                    <div class="form-group row">
+                        <label for="product_id" class="col-sm-2 col-form-label">Product:</label>
+                        <div class="col-sm-6">
+                            <select class="form-control" id="product_id" name="product_id" required>
+                                <option value="">Select a product</option>
+                                
+                            </select>
+                            <div class="invalid-feedback">
+                                Please select a product.
                             </div>
                         </div>
                     </div><br>
