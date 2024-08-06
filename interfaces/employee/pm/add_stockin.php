@@ -54,6 +54,17 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <div class="container">
                 <form id="addStockForm" action="" method="post" class="needs-validation form-shadow" novalidate>
                     <div class="form-group row">
+                        <label for="supplier_id" class="col-sm-2 col-form-label">Supplier:</label>
+                        <div class="col-sm-6">
+                            <select class="form-control" id="supplier_id" name="supplier_id" required>
+                                <option value="">Select a supplier</option>
+                            </select>
+                            <div class="invalid-feedback">
+                                Please select a supplier.
+                            </div>
+                        </div>
+                    </div><br>
+                    <div class="form-group row">
                         <label for="product_id" class="col-sm-2 col-form-label">Product:</label>
                         <div class="col-sm-6">
                             <select class="form-control" id="product_id" name="product_id" required>
@@ -66,18 +77,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                             </select>
                             <div class="invalid-feedback">
                                 Please select a product.
-                            </div>
-                        </div>
-                    </div><br>
-
-                    <div class="form-group row">
-                        <label for="supplier_id" class="col-sm-2 col-form-label">Supplier:</label>
-                        <div class="col-sm-6">
-                            <select class="form-control" id="supplier_id" name="supplier_id" required>
-                                <option value="">Select a supplier</option>
-                            </select>
-                            <div class="invalid-feedback">
-                                Please select a supplier.
                             </div>
                         </div>
                     </div><br>
