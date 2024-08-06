@@ -143,7 +143,7 @@ $(document).ready(function() {
 
         if (product_id) {
             $.ajax({
-                url: 'get_suppliers.php',
+                url: 'get_product.php',
                 type: 'GET',
                 data: { product_id: product_id },
                 dataType: 'json',
