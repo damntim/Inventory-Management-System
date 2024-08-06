@@ -11,7 +11,7 @@ $stockin = new Stockin($db);
 $product = new Product($db);
 $supplier = new Supplier($db);
 
-$products = $product->getProducts();
+$suppliers = $supplier->getSuppliers();
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $stockin->product_id = $_POST['product_id'];
@@ -24,7 +24,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if ($price_details) {
         $stockin->amount = $price_details['amount'];
         $stockin->netprice = $price_details['netprice'];
-        $stockin->totalprice = $price_details['netprice']*$stockin->quantity = $_POST['quantity'];
+        $stockin->totalprice = $price_details['netprice'] * $_POST['quantity'];
         $stockin->taxrate = $price_details['taxrate'];
         $stockin->discount = $price_details['discount'];
         
@@ -58,6 +58,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         <div class="col-sm-6">
                             <select class="form-control" id="supplier_id" name="supplier_id" required>
                                 <option value="">Select a supplier</option>
+                                <?php while ($row = $suppliers->fetch(PDO::FETCH_ASSOC)): ?>
+                                    <option value="<?php echo htmlspecialchars($row['id']); ?>">
+                                        <?php echo htmlspecialchars($row['fullname']); ?>
+                                    </option>
+                                <?php endwhile; ?>
                             </select>
                             <div class="invalid-feedback">
                                 Please select a supplier.
@@ -69,11 +74,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         <div class="col-sm-6">
                             <select class="form-control" id="product_id" name="product_id" required>
                                 <option value="">Select a product</option>
-                                <?php while ($row = $products->fetch(PDO::FETCH_ASSOC)): ?>
-                                    <option value="<?php echo htmlspecialchars($row['product_id']); ?>">
-                                        <?php echo htmlspecialchars($row['product_name'].$row['product_id']); ?>
-                                    </option>
-                                <?php endwhile; ?>
                             </select>
                             <div class="invalid-feedback">
                                 Please select a product.
@@ -89,8 +89,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                 <input type="text" class="form-control" id="amount" name="amount" readonly>
                             </div>
                         </div><br>
-
-
 
                         <div class="form-group row">
                             <label for="taxrate" class="col-sm-2 col-form-label">Tax Rate:</label>
@@ -136,21 +134,21 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
             <script>
 $(document).ready(function() {
-    $('#product_id').change(function() {
-        var product_id = $(this).val();
+    $('#supplier_id').change(function() {
+        var supplier_id = $(this).val();
 
-        if (product_id) {
+        if (supplier_id) {
             $.ajax({
-                url: 'get_suppliers.php',
+                url: 'get_products.php',
                 type: 'GET',
-                data: { product_id: product_id },
+                data: { supplier_id: supplier_id },
                 dataType: 'json',
                 success: function(response) {
                     console.log(response);  // Debug log to check the response
                     if (response.status === 'success') {
-                        $('#supplier_id').empty().append('<option value="">Select a supplier from get supplier</option>');
-                        $.each(response.supplier, function(index, supplier) {
-                            $('#supplier_id').append('<option value="' + supplier.id + '">' + supplier.fullname + '</option>');
+                        $('#product_id').empty().append('<option value="">Select a product</option>');
+                        $.each(response.products, function(index, product) {
+                            $('#product_id').append('<option value="' + product.product_id + '">' + product.product_name + '</option>');
                         });
                     } else {
                         alert('Error: ' + response.message);
@@ -162,13 +160,13 @@ $(document).ready(function() {
                 }
             });
         } else {
-            $('#supplier_id').empty().append('<option value="">Select a supplier</option>');
+            $('#product_id').empty().append('<option value="">Select a product</option>');
         }
     });
 
-    $('#supplier_id').change(function() {
-        var product_id = $('#product_id').val();
-        var supplier_id = $(this).val();
+    $('#product_id').change(function() {
+        var product_id = $(this).val();
+        var supplier_id = $('#supplier_id').val();
 
         if (product_id && supplier_id) {
             $.ajax({
