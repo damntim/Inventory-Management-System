@@ -9,21 +9,21 @@ require_once '../../../objects/employee/price/Price.php';
 
 $response = ['status' => 'error', 'message' => 'Unknown error'];
 
-if (isset($_GET['product_id'])) {
+if (isset($_GET['supplier_id'])) {
     try {
         $database = new Database();
         $db = $database->getConnection();
 
-        $product_id = $_GET['product_id'];
+        $supplier_id = $_GET['supplier_id'];
 
-        // Fetch supplier with prices for the selected product
-        $query = "SELECT supplier.id, supplier.fullname 
+        // Fetch product with prices for the selected supplier
+        $query = "SELECT product.fullname,product.id  
                   FROM supplier 
                   JOIN prices ON supplier.id = prices.paternerID 
-                  WHERE prices.productID = ? AND prices.pricetype = 'purchase'";
+                  WHERE prices.supplierID = ? AND prices.pricetype = 'purchase'";
 
         $stmt = $db->prepare($query);
-        if ($stmt->execute([$product_id])) {
+        if ($stmt->execute([$supplier_id])) {
             $supplier = $stmt->fetchAll(PDO::FETCH_ASSOC);
             $response = ['status' => 'success', 'supplier' => $supplier];
         } else {
@@ -33,7 +33,7 @@ if (isset($_GET['product_id'])) {
         $response['message'] = $e->getMessage();
     }
 } else {
-    $response['message'] = 'Product ID not provided.';
+    $response['message'] = 'supplier ID not provided.';
 }
 
 echo json_encode($response);

@@ -71,29 +71,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                 <option value="">Select a product</option>
                                 <?php while ($row = $products->fetch(PDO::FETCH_ASSOC)): ?>
                                     <option value="<?php echo htmlspecialchars($row['product_id']); ?>">
-                                        <!-- <?php echo htmlspecialchars($row['product_name'].$row['product_id']);
-                                        $supplier_id = isset($_GET['supplier_id']) ? $_GET['supplier_id'] : '';
-
-                                        if (!empty($supplier_id)) {
-                                            // Fetch products for the selected supplier
-                                            $products = ($supplier_id); // Assuming this method exists in your Product class
-                                            
-                                            // Format products for JSON response
-                                            $product_options = [];
-                                            while ($row = $products->fetch(PDO::FETCH_ASSOC)) {
-                                                $product_options[] = [
-                                                    'value' => $row['product_id'],
-                                                    'text' => $row['product_name'] . ' ' . $row['product_id']
-                                                ];
-                                            }
-                                        
-                                            $response = ['status' => 'success', 'products' => $product_options];
-                                        } else {
-                                            $response = ['status' => 'error', 'message' => 'Invalid supplier ID'];
-                                        }
-                                        
-                                        
-                                        ?> -->
+                                        <?php echo htmlspecialchars($row['product_name'].$row['product_id']);
+                                        $supplier_id = isset($_GET['supplier_id']) ? $_GET['supplier_id'] : '';                                     
+                                        ?> 
                                     </option>
                                 <?php endwhile; ?>
                             </select>
