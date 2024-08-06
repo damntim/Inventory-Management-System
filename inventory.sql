@@ -3,7 +3,11 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
+<<<<<<< HEAD
 -- Generation Time: Jul 29, 2024 at 06:12 PM
+=======
+-- Generation Time: Jul 29, 2024 at 09:55 PM
+>>>>>>> 1246293a6213453a1a0595d6a058b70994d6c645
 -- Server version: 10.4.6-MariaDB
 -- PHP Version: 7.1.32
 
@@ -52,6 +56,34 @@ INSERT INTO `categories` (`id`, `categoryName`, `categoryDescription`, `created_
 -- --------------------------------------------------------
 
 --
+<<<<<<< HEAD
+=======
+-- Table structure for table `customers`
+--
+
+CREATE TABLE `customers` (
+  `id` int(11) NOT NULL,
+  `fullname` varchar(100) NOT NULL,
+  `contact` varchar(15) NOT NULL,
+  `email` varchar(100) NOT NULL,
+  `address` varchar(255) NOT NULL,
+  `username` varchar(50) NOT NULL,
+  `password` varchar(255) NOT NULL,
+  `photo` varchar(255) NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `customers`
+--
+
+INSERT INTO `customers` (`id`, `fullname`, `contact`, `email`, `address`, `username`, `password`, `photo`, `created_at`) VALUES
+(2, 'mbarushimana danny', '785498054', 'ykdann53@gmail.com', 'kgl', 'danny', '12345$Da', 'messi.jpg', '2024-07-29 18:52:00');
+
+-- --------------------------------------------------------
+
+--
+>>>>>>> 1246293a6213453a1a0595d6a058b70994d6c645
 -- Table structure for table `employees`
 --
 
@@ -136,6 +168,15 @@ ALTER TABLE `categories`
   ADD PRIMARY KEY (`id`);
 
 --
+<<<<<<< HEAD
+=======
+-- Indexes for table `customers`
+--
+ALTER TABLE `customers`
+  ADD PRIMARY KEY (`id`);
+
+--
+>>>>>>> 1246293a6213453a1a0595d6a058b70994d6c645
 -- Indexes for table `employees`
 --
 ALTER TABLE `employees`
@@ -165,6 +206,15 @@ ALTER TABLE `categories`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
+<<<<<<< HEAD
+=======
+-- AUTO_INCREMENT for table `customers`
+--
+ALTER TABLE `customers`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
+>>>>>>> 1246293a6213453a1a0595d6a058b70994d6c645
 -- AUTO_INCREMENT for table `employees`
 --
 ALTER TABLE `employees`

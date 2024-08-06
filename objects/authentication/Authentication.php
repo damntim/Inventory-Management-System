@@ -2,6 +2,7 @@
 class Authentication {
     private $conn;
     private $table_name = "employees";
+    private $customer_table = "customers";
 
     public $email;
     public $password;
@@ -32,14 +33,47 @@ class Authentication {
                     session_start();
                 }
                 $_SESSION['id'] = $id;
+<<<<<<< HEAD
                
                 $_SESSION['employee_id'] = $employee_id;
 
+=======
+                $_SESSION['employee_id'] = $employee_id;
+>>>>>>> 1246293a6213453a1a0595d6a058b70994d6c645
                 $_SESSION['full_name'] = $full_name;
                 $_SESSION['email'] = $email;
                 $_SESSION['position'] = $position;
                 $_SESSION['image'] = $image;
                 return true;
+            }
+        } else {
+            // Check in the customers table
+            $query = "SELECT id, fullname, email, photo, password FROM " . $this->customer_table . " WHERE email = ? LIMIT 0,1";
+            $stmt = $this->conn->prepare($query);
+            $stmt->bindParam(1, $this->email);
+            $stmt->execute();
+            $num = $stmt->rowCount();
+
+            if ($num > 0) {
+                $row = $stmt->fetch(PDO::FETCH_ASSOC);
+                $id = $row['id'];
+                $fullname = $row['fullname'];
+                $email = $row['email'];
+                $photo = $row['photo'];
+                $password2 = $row['password'];
+
+                if (($this->password == $password2)) {
+                    if (session_status() == PHP_SESSION_NONE) {
+                        session_start();
+                    }
+                    $_SESSION['id'] = $id;
+                    $_SESSION['fullname'] = $fullname;
+                    $_SESSION['email'] = $email;
+                    $_SESSION['photo'] = $photo;
+                    // Redirect to main.php for customers
+                    header("Location: ../products/index.php");
+                    exit;
+                }
             }
         }
         return false;
@@ -48,15 +82,37 @@ class Authentication {
 
 
 
+
+
 function checkAuthorization() {
     session_start();
     // Check if all necessary session variables are set
+<<<<<<< HEAD
     if (!isset($_SESSION['id'],  $_SESSION['employee_id'] , $_SESSION['full_name'], $_SESSION['email'], $_SESSION['position'], $_SESSION['image'])) {
+=======
+    if (!isset($_SESSION['id'], $_SESSION['employee_id'], $_SESSION['full_name'], $_SESSION['email'], $_SESSION['position'], $_SESSION['image'])) {
+>>>>>>> 1246293a6213453a1a0595d6a058b70994d6c645
         // If not, redirect to the login page
-        header("Location: login.php");
+        header("Location: ../../authentication/index.php");
         exit();
     }
 }
+
+function checkCustomer() {
+    session_start();
+    $customerData = [];
+    
+    // Check if all necessary session variables are set
+    if (isset($_SESSION['id'], $_SESSION['fullname'], $_SESSION['email'], $_SESSION['photo'])) {
+        $customerData['id'] = $_SESSION['id'];
+        $customerData['fullname'] = $_SESSION['fullname'];
+        $customerData['email'] = $_SESSION['email'];
+        $customerData['photo'] = $_SESSION['photo'];
+    }
+    
+    return $customerData;
+}
+
 
 
 ?>
