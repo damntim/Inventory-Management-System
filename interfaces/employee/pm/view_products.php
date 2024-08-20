@@ -2,19 +2,19 @@
 include ("../includes/header.php");
 require_once '../../../objects/product/product/Product.php';
 require_once '../../../objects/product/category/veiw_category.php';
-require_once '../../../objects/employee/stock/veiw_stock.php';
+require_once '../../../objects/employee/warehouse/veiw_warehouse.php';
 
 // Instantiate database and product object
 $database = new Database();
 $db = $database->getConnection();
 $product = new Product($db);
 $category = new Category($db);
-$stock = new Stock($db);
+$warehouse = new warehouse($db);
 
-// Retrieve all products, categories, and stocks
+// Retrieve all products, categories, and warehouses
 $products = $product->getProducts();
 $categories = $category->getAllCategories();
-$Stocks = $stock->read();
+$warehouses = $warehouse->read();
 
 // Create associative arrays for categories and warehouses
 $categoryNames = [];
@@ -23,7 +23,7 @@ foreach ($categories as $row) {
 }
 
 $warehouseNames = [];
-foreach ($Stocks as $row) {
+foreach ($warehouses as $row) {
     $warehouseNames[$row['id']] = $row['category'] . ' - ' . $row['location'];
 }
 ?>

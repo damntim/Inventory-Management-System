@@ -5,7 +5,7 @@ require_once '../../../objects/product/product/Product.php';
 require_once '../../../objects/partner/customer/Customer.php';
 require_once '../../../objects/partner/supplier/Supplier.php';
 require_once '../../../objects/product/category/veiw_category.php';
-require_once '../../../objects/employee/stock/veiw_stock.php';
+require_once '../../../objects/employee/warehouse/veiw_warehouse.php';
 // Instantiate database and objects
 $database = new Database();
 $db = $database->getConnection();
@@ -40,11 +40,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     // Create price record
     if ($price->addPrice()) {
-        // header("Location: view_prices.php");
-        echo "<div class='alert alert-success'>Price added</div>";
-        exit;
-    } else {
-        echo "<div class='alert alert-danger'>Unable to add price. Please try again.</div>";
+        echo '<script>
+        alert("price added successfully!");
+        window.location.href = "view_products.php";
+    </script>';
+    } else{
+        echo '<script>
+        alert("price add failed!");
+        window.location.href = "view_products.php";
+    </script>';
     }
 }
 ?>

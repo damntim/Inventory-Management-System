@@ -30,14 +30,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['login'])) {
             $position = $_SESSION['position'];
             if ($position == 'Human Resource') {
                 header("Location: ../employee/hr/index.php");
+
             } elseif ($position == 'Product Manager') {
                 header("Location: ../employee/pm/index.php");
-            } elseif ($position == 'Stock Manager') {
-                header("Location: ../employee/sm/index.php");
-            } elseif ($position == 'Werahouse Manager') {
-                header("Location: ../employee/wm/index.php");
-            } elseif ($position == 'Customer Manager') {
-                header("Location: ../employee/cm/index.php");
+
+           
             } else {
                 echo "Invalid position.";
             }

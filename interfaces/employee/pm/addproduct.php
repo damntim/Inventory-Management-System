@@ -1,17 +1,17 @@
 <?php
 include ("../includes/header.php");
 include ("../../../objects/product/category/veiw_category.php");
-require_once '../../../objects/employee/stock/veiw_stock.php'; // Assuming the Stock class file path is correct
+require_once '../../../objects/employee/warehouse/veiw_warehouse.php'; // Assuming the warehouse class file path is correct
 require_once '../../../objects/product/product/Product.php'; // Assuming the Product class file path is correct
 
-// Instantiate database and stock object
+// Instantiate database and warehouse object
 $database = new Database();
 $db = $database->getConnection();
-$stock = new Stock($db);
+$warehouse = new warehouse($db);
 $product = new Product($db);
 $categories=new Category($db);
-// Retrieve all stocks
-$Stocks = $stock->read();
+// Retrieve all warehouses
+$warehouses = $warehouse->read();
 $categories = $categories->getAllCategories(); // Make sure $categories is populated properly from veiw_category.php
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -19,7 +19,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $productName = $_POST['productName'];
     $productImage = $_FILES['productImage'];
     $productCategory = $_POST['productCategory'];
-    $stock = $_POST['stock'];
+    $warehouse = $_POST['warehouse'];
     $productDescription = $_POST['productDescription'];
 
     // Handle file upload
@@ -29,7 +29,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         // File upload successful, proceed to insert product
         $product->product_name = $productName;
         $product->description = $productDescription;
-        $product->warehouse_id = $stock;
+        $product->warehouse_id = $warehouse;
         $product->category_id = $productCategory;
         $product->product_image = basename($productImage["name"]);
 
@@ -94,14 +94,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         </div>
                     </div><br>
                     <div class="form-group row">
-                        <label for="stock" class="col-sm-2 col-form-label">Product Warehouse:</label>
+                        <label for="warehouse" class="col-sm-2 col-form-label">Product Warehouse:</label>
                         <div class="col-sm-6">
-                            <select class="form-control" id="stock" name="stock" required>
+                            <select class="form-control" id="warehouse" name="warehouse" required>
                                 <option value="">Select a warehouse and location</option>
-                                <?php foreach($Stocks as $Stock): ?>
-                                    <option value="<?php echo htmlspecialchars($Stock['id']); ?>">
-                                        <?php echo htmlspecialchars($Stock['category']); ?>
-                                        <?php echo htmlspecialchars($Stock['location']); ?>
+                                <?php foreach($warehouses as $warehouse): ?>
+                                    <option value="<?php echo htmlspecialchars($warehouse['id']); ?>">
+                                        <?php echo htmlspecialchars($warehouse['category']); ?>
+                                        <?php echo htmlspecialchars($warehouse['location']); ?>
                                     </option>
                                 <?php endforeach; ?>
                             </select>

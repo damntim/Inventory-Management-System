@@ -14,7 +14,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $photo = $_FILES['photo']['name'];
 
     // File upload path
-    $targetDir = "'../../../images/customers/'";
+    $targetDir = "../../../images/customers/";
     $targetFilePath = $targetDir . basename($photo);
     move_uploaded_file($_FILES['photo']['tmp_name'], $targetFilePath);
 

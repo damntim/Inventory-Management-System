@@ -16,16 +16,23 @@ $suppliers = $supplier->getSupplier();
 
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['action'])) {
     if ($_POST['action'] == 'add_to_cart') {
+        $quantity = $_POST['quantity'];
+        $netprice = $_POST['netprice'];
+        
+        // Calculate total price
+        $totalprice = $netprice * $quantity;
+        
         $cart_item = [
             'supplier_id' => $_POST['supplier_id'],
             'supplier_name' => $_POST['supplier_name'],
             'product_id' => $_POST['product_id'],
             'product_name' => $_POST['product_name'],
-            'quantity' => $_POST['quantity'],
+            'quantity' => $quantity,
             'amount' => $_POST['amount'],
-            'netprice' => $_POST['netprice'],
+            'netprice' => $netprice,
             'taxrate' => $_POST['taxrate'],
             'discount' => $_POST['discount'],
+            'totalprice' => $totalprice // Store total price in the cart
         ];
 
         if (!isset($_SESSION['cart'])) {
@@ -44,8 +51,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['action'])) {
             $stockin->discount = $item['discount'];
             $stockin->totalprice = $item['netprice'] * $stockin->quantity;
             
-            if (!$stockin->create()) {
-                echo "<div class='alert alert-danger'>Unable to add stock for {$item['product_name']}. Please try again.</div>";
+            if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['action'])) {
+                if ($_POST['action'] == 'purchase_all') {
+                    $partner_id = $_SESSION['cart'][0]['supplier_id']; // Assuming all cart items share the same partner (supplier)
+                    if (!$stockin->createBulk($_SESSION['cart'], $partner_id)) {
+                        echo "<div class='alert alert-danger'>Unable to add stock. Please try again.</div>";
+                    } else {
+                        $_SESSION['cart'] = []; // Clear the cart on successful transaction
+                        echo "<div class='alert alert-success'>All items purchased successfully.</div>";
+                    }
+                }
             }
         }
         $_SESSION['cart'] = [];
@@ -157,31 +172,38 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['action'])) {
                             <th>Net Price</th>
                             <th>Tax Rate</th>
                             <th>Discount</th>
-                            <th>Remove</th>
+                            <th>Total Price</th>
+                            <th>Action</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <?php if (isset($_SESSION['cart']) && count($_SESSION['cart']) > 0): ?>
-                            <?php foreach ($_SESSION['cart'] as $item): ?>
-                                <tr>
-                                    <td><?php echo htmlspecialchars($item['supplier_name']); ?></td>
-                                    <td><?php echo htmlspecialchars($item['product_name']); ?></td>
-                                    <td><?php echo htmlspecialchars($item['quantity']); ?></td>
-                                    <td><?php echo htmlspecialchars($item['amount']); ?></td>
-                                    <td><?php echo htmlspecialchars($item['netprice']); ?></td>
-                                    <td><?php echo htmlspecialchars($item['taxrate']); ?></td>
-                                    <td><?php echo htmlspecialchars($item['discount']); ?></td>
-                                    <td>
-                                <a href="deletecart.php"></a>
-                                </td>
-                                </tr>
-                            <?php endforeach; ?>
-                        <?php else: ?>
-                            <tr>
-                                <td colspan="7">No items in cart.</td>
-                            </tr>
-                        <?php endif; ?>
-                    </tbody>
+    <?php if (isset($_SESSION['cart']) && count($_SESSION['cart']) > 0): ?>
+        <?php foreach ($_SESSION['cart'] as $key => $item): ?>
+            <tr>
+                <td><?php echo htmlspecialchars($item['supplier_name']); ?></td>
+                <td><?php echo htmlspecialchars($item['product_name']); ?></td>
+                <td><?php echo htmlspecialchars($item['quantity']); ?></td>
+                <td><?php echo htmlspecialchars($item['amount']); ?></td>
+                <td><?php echo htmlspecialchars($item['netprice']); ?></td>
+                <td><?php echo htmlspecialchars($item['taxrate']); ?></td>
+                <td><?php echo htmlspecialchars($item['discount']); ?></td>
+                <td><?php echo htmlspecialchars($item['totalprice']); ?></td> <!-- Display total price -->
+
+                <td>
+                    <form action="deletecart.php" method="post">
+                        <input type="hidden" name="item_key" value="<?php echo $key; ?>">
+                        <button type="submit" class="btn btn-danger">Remove</button>
+                    </form>
+                </td>
+            </tr>
+        <?php endforeach; ?>
+    <?php else: ?>
+        <tr>
+            <td colspan="9">No items in cart.</td>
+        </tr>
+    <?php endif; ?>
+</tbody>
+
                 </table>
                 <form action="" method="post">
                     <input type="hidden" name="action" value="purchase_all">

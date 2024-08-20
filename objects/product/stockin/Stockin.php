@@ -42,31 +42,50 @@ class Stockin {
         return false;
     }
 
-    public function create() {
-        $query = "
-            INSERT INTO " . $this->table_name . " 
-            (product_id, quantity, partner_id, amount, netprice, taxrate, discount, totalprice)
-            VALUES
-            (:product_id, :quantity, :partner_id, :amount, :netprice, :taxrate, :discount, :totalprice)
-        ";
+    // Insert all cart items in one transaction
+    public function createBulk($cartItems, $partner_id) {
+        try {
+            // Start transaction
+            $this->conn->beginTransaction();
 
-        $stmt = $this->conn->prepare($query);
+            $query = "
+               INSERT INTO " . $this->table_name . " 
+(product_id, quantity, partner_id, amount, netprice, taxrate, discount, totalprice)
+VALUES
+(:product_id, :quantity, :partner_id, :amount, :netprice, :taxrate, :discount, :totalprice)
 
-        // Bind parameters
-        $stmt->bindParam(':product_id', $this->product_id);
-        $stmt->bindParam(':quantity', $this->quantity);
-        $stmt->bindParam(':partner_id', $this->partner_id);
-        $stmt->bindParam(':amount', $this->amount);
-        $stmt->bindParam(':netprice', $this->netprice);
-        $stmt->bindParam(':taxrate', $this->taxrate);
-        $stmt->bindParam(':discount', $this->discount);
-        $stmt->bindParam(':totalprice', $this->totalprice);
+            ";
 
-        if ($stmt->execute()) {
+            $stmt = $this->conn->prepare($query);
+
+            // Loop through each cart item
+            foreach ($cartItems as $item) {
+                // Bind parameters for each item in the cart
+                $stmt->bindParam(':product_id', $item['product_id']);
+                $stmt->bindParam(':quantity', $item['quantity']);
+                $stmt->bindParam(':partner_id', $partner_id);
+                $stmt->bindParam(':amount', $item['amount']);
+                $stmt->bindParam(':netprice', $item['netprice']);
+                $stmt->bindParam(':taxrate', $item['taxrate']);
+                $stmt->bindParam(':discount', $item['discount']);
+                $stmt->bindParam(':totalprice', $item['totalprice']);
+                
+                // Execute query for each item
+                if (!$stmt->execute()) {
+                    // Rollback if any insertion fails
+                    $this->conn->rollBack();
+                    return false;
+                }
+            }
+
+            // Commit transaction if all inserts succeed
+            $this->conn->commit();
             return true;
+        } catch (Exception $e) {
+            // Rollback in case of error
+            $this->conn->rollBack();
+            return false;
         }
-
-        return false;
     }
 
     public function readAll() {
@@ -80,7 +99,6 @@ class Stockin {
         $stmt->execute();
         return $stmt;
     }
-
 
     public function delete() {
         $query = "DELETE FROM " . $this->table_name . " WHERE stock_id = :stock_id";

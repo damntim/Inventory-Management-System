@@ -1,0 +1,135 @@
+/* Cart Icon */
+.cart-icon {
+    position: relative;
+    cursor: pointer;
+}
+
+.cart-badge {
+    position: absolute;
+    top: -10px;
+    right: -10px;
+    background-color: #dc3545;
+    color: white;
+    border-radius: 50%;
+    padding: 2px 8px;
+    font-size: 12px;
+}
+
+/* Cart Modal */
+.cart-modal {
+    position: fixed;
+    top: 0;
+    right: 0;
+    width: 300px;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    z-index: 1000;
+}
+
+.cart-modal-content {
+    background: white;
+    width: 100%;
+    max-width: 300px;
+    height: 100%;
+    overflow-y: auto;
+    padding: 20px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+}
+
+.cart-close {
+    font-size: 24px;
+    cursor: pointer;
+    color: #dc3545;
+}
+
+.cart-item {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.cart-item-img {
+    width: 50px;
+    height: 50px;
+    object-fit: cover;
+    margin-right: 10px;
+}
+
+.cart-item-details {
+    flex: 1;
+}
+
+.cart-item-name {
+    font-weight: bold;
+}
+
+.cart-item-price, .cart-item-quantity {
+    margin: 5px 0;
+}
+
+.clear-cart {
+    background-color: #dc3545;
+    color: white;
+    border: none;
+    padding: 10px;
+    cursor: pointer;
+}
+
+.clear-cart:hover {
+    background-color: #c82333;
+
+}
+.cart-remove, .cart-remove-fallback {
+    cursor: pointer;
+    font-size: 20px;
+    color: #ff0000; /* Red color for visibility */
+    display: inline-block;
+    margin-left: 10px;
+  }
+  
+  .cart-remove-fallback {
+    display: none; /* Fallback hidden by default */
+  }
+  
+  ion-icon {
+    vertical-align: middle;
+  }
+  
+  ion-icon[hidden] + .cart-remove-fallback {
+    display: inline-block; /* Show fallback if ion-icon is hidden */
+  }
+  
+.dropdownn {
+    position: relative;
+    display: inline-block;
+  }
+  
+  /* Hide dropdown content by default */
+  .dropdownn-content {
+    display: none;
+    position: absolute;
+    background-color: #f9f9f9;
+    min-width: 150px;
+    box-shadow: 0px 8px 16px rgba(0,0,0,0.2);
+    z-index: 1;
+    padding: 12px 16px;
+  }
+  
+  /* Show the dropdown content when hovering over the dropdownn */
+  .dropdownn:hover .dropdownn-content {
+    display: block;
+  }
+  
+  .dropdownn-content a {
+    color: black;
+    text-decoration: none;
+    display: block;
+    padding: 8px 0;
+  }
+  
+  .dropdownn-content a:hover {
+    background-color: #ddd;
+  }
